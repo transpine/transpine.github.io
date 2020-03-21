@@ -1,0 +1,35 @@
+title: Brain Sketch
+description: > # this means to ignore newlines until "baseurl:"
+  Intermediate thinking storage
+permalink: ':title/'
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://transpine.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+site-twitter: #if your site has a twitter account, enter it here
+
+# Author Settings
+author: JayD # add your name
+author-img: JayD.png # add your photo
+about-author: 어이 자네. <br>아직도 자고 있는가? # add description
+social-twitter: transpine # add your Twitter handle
+social-facebook: transpine # add your Facebook handle
+social-github: transpine # add your Github handle
+social-linkedin: jeongdon-kang-a79902b5/ # add your Linkedin handle
+social-email: transpine@gmail.com # add your Email address
+
+# Disqus
+discus-identifier: brainsketch # add your discus identifier
+
+# Tracker
+analytics: # Google Analytics
+
+# Build Settings
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jemoji
+
+paginate: 8
+paginate_path: "/page/:num"
+
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
