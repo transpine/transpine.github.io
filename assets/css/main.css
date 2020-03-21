@@ -1171,6 +1171,28 @@ footer .copyright {
   margin-top: 0;
 }
 
+.post .post-content .tag:before{
+  content: '#';  
+}
+.post .post-content li {
+  list-style-type: none;
+  float: left;
+}
+
+.post .post-content .tag {
+  background: yellowgreen;
+  color: white;
+  border-radius: 5px;
+  padding: 1px 5px;
+  margin-right: 3px;
+  font-size: 0.83rem;
+  text-decoration: none;
+}
+
+.post .post-content .tag-labels {
+  display: flex;
+}
+
 a.older-posts, a.newer-posts {
   font-size: 18px;
   display: inline-block;
