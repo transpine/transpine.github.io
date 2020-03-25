@@ -101,8 +101,13 @@ a {
   /* 1 */
   -webkit-text-decoration-skip: objects;
   /* 2 */
+  text-decoration: none;
 }
 
+a:hover {
+  border-bottom: 1px dotted gray; 
+  text-decoration: none;
+}
 /**
  * 1. Remove the bottom border in Chrome 57- and Firefox 39-.
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
@@ -446,10 +451,11 @@ template {
 .highlighter-rouge {
   color: #ce887b;
   font-weight: 400;
-  border: 1px solid #607D8B;
+  /* border: 1px solid #607D8B; */
   -webkit-border-radius: 3px;
           border-radius: 3px;
-  padding: 0.1rem 0.5rem;
+  /* padding: 0.1rem 0.5rem; */
+  background: #eeeeee;
 }
 
 .highlight .hll {
@@ -783,6 +789,7 @@ body {
 
 h1 {
   font-weight: 400;
+  border-bottom: #DEDEDD 3px dashed;
 }
 
 img {
@@ -939,6 +946,21 @@ table tfoot td {
 .about {
   margin: 0 0 40px;
   text-align: center;
+}
+
+.about .logo {
+  vertical-align: text-top;
+  display: inline;
+  width: 100%;
+  height: auto; 
+  max-width: 27px;
+  max-height: 27px;
+  margin-right: 4px;
+}
+
+.about .title {
+  font-size: 24px;
+  margin: 0 0 14px 0;
 }
 
 .about .cover-author-image {
@@ -1221,6 +1243,13 @@ a.newer-posts:hover {
   padding: 20px;
 }
 
+/* .wrap-content > p:first-of-type:first-letter {
+  font-size: 3.0em;
+  margin: 0 6px 0;
+  float: left;
+  margin-top: 0;
+} */
+
 .header-page {
   text-align: center;
   margin: 10px 0;
@@ -1327,6 +1356,14 @@ a.newer-posts:hover {
 .page-footer .page-tag a:hover {
   text-decoration: underline;
 }
+
+/*** added style from jayd ****/
+.align-right {
+  margin-left: auto;
+  margin-right: 0;
+  display: block;
+}
+
 
 /* - - - - - - - - - - Tag Styles - - - - - - - - - - */
 .blog-tags {
