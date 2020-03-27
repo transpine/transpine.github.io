@@ -6,7 +6,7 @@ category:
 description: Foundations for blog  # Add post description (optional)
 img:  # Add image post (optional)
 fig-caption: # Add figcaption (optional)
-tags: [blog] # add tag
+tags: [jekyll] # add tag
 ---
 
 ## Github + blog
