@@ -1257,6 +1257,26 @@ a.newer-posts:hover {
   margin-top: 0;
 } */
 
+.wrap-content ol {
+  list-style: none;
+}
+
+.wrap-content ol li {
+  counter-increment: li;
+}
+
+.wrap-content ol li p{
+  display: inline-table;
+}
+
+.wrap-content ol li::before {
+  content: counter(li)". ";
+  font-size: 23px;
+  margin-right: 3px;
+  margin-left: -26px;
+  font-weight: bold;
+}
+
 .header-page {
   text-align: center;
   margin: 10px 0;
