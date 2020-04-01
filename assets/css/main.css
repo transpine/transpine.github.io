@@ -945,6 +945,11 @@ table tfoot td {
   background-color: #ffffff;
 }
 
+body .tag_wrapper{
+  text-align: center;
+  height: 100%;
+}
+
 .about {
   margin: 0 0 40px;
   text-align: center;
