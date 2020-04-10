@@ -24,11 +24,14 @@ img: posts/2020-04-02_title.png
 
 간단한 설정으로 local에서 사용할 수 있는 인증서를 만들어주거나 설치해 주는 툴입니다. 현재 저는 윈도우 환경에서 글을 작성하고 있어서 [pre-built binary](https://github.com/FiloSottile/mkcert/releases)를 사용하겠습니다. 다운로드한 mkcert-v0.0.0-windows.amd64.exe는 CLI에서 사용가능합니다. 
 
+※ 127.0.0.1로는 service worker가 등록되지 않습니다.
+
 ```
->mkcert-v1.4.1-windows-amd64.exe localhost
+>mkcert-v1.4.1-windows-amd64.exe -install
+>mkcert-v1.4.1-windows-amd64.exe 127.0.0.1 localhost ::1
 ```
 
-입력하게되면 현재 경로에 localhost-key.pem과 localhost.pem가 생깁니다. 이 파일들을 읽어 https모듈쪽에 옵션으로 전달해주면 됩니다.
+입력하게되면 현재 경로에 localhost-key+3.pem과 localhost+3.pem가 생깁니다. +3은 3개의 host를 지원한다는 거겠죠? 이 파일들을 읽어 https모듈쪽에 옵션으로 전달해주면 됩니다.
 
 그럼 간단한 https 서버를 만들어 확인 해 보겠습니다.
 
@@ -53,8 +56,8 @@ app.get('/', (req, res) =>{
 });
 
 const options = {
-    cert: fs.readFileSync('localhost.pem'),
-    key: fs.readFileSync('localhost-key.pem')
+    cert: fs.readFileSync('localhost+3.pem'),
+    key: fs.readFileSync('localhost+3-key.pem')
 };  
 
 https.createServer(options, app).listen( port, () => {
@@ -90,13 +93,16 @@ app.use(cors());    //cross origin 허용
 app.use(express.json());    //json사용
 app.use(express.urlencoded({ extended: true})); //body-parse사용
 
+app.use('/client', express.static('client'));       //구독 페이지
+app.use('/sketcher', express.static('sketcher'));   //Push 전송 페이지
+
 app.get('/', (req, res) =>{
     res.send("Web Push Server");
 });
 
 const options = {
-    cert: fs.readFileSync('localhost.pem'),
-    key: fs.readFileSync('localhost-key.pem')
+    cert: fs.readFileSync('localhost+3.pem'),
+    key: fs.readFileSync('localhost+3-key.pem')
 };  
 
 const vapidKeys = webpush.generateVAPIDKeys();
@@ -106,31 +112,38 @@ webpush.setVapidDetails(
     vapidKeys.privateKey
 );
 
-app.get('/push/key', function(req, res){
+// 1. service-worker의 pushManager가 Registration을 하기 위한  키를 받아오는 GET
+app.get('/push/key', (req, res) => {
     console.log(`publick key sent: ${vapidKeys.publicKey}`);
     res.send({
         key: vapidKeys.publicKey
     });
 });
 
+// 2. 구독 POST
 const temp_subs = [];
-app.post('/push/subscribe', function(req, res){
-    temp_subs.append(req.body.subscription);
-    console.log(req.body);
-
-    res.send('Success');
+app.post('/push/subscribe', (req, res) => {
+    temp_subs.push(req.body.subscription);
+    console.log(`subscribed : ${JSON.stringify(req.body.subscription)}`);
+    res.send('Subscribed');
 });
 
-app.post('/push/notify', function(req, res){
+// 3. 등록된 브라우저 들에게 푸시를 보내는 POST
+app.post('/push/notify', (req, res) => {
+    console.log(`-------------------------------------------`);
+    console.log(`notify requested : ${JSON.stringify(req.body)}`);
     let payload = {};
     payload.title = req.body.title;
     payload.message = req.body.message;
 
-    for(const subs in temp_subs){
+    for(const subs of temp_subs){
         webpush.sendNotification(subs, JSON.stringify(payload))
-        .then(function (response) {
+        .then( (response) => {
             console.log('sent notification');
             res.sendStatus(201);
+        }).catch( (err) => {
+            console.error(`notification error : ${err}`);
+            res.sendStatus(500);
         });
     }
 });
@@ -145,6 +158,114 @@ https.createServer(options, app).listen( port, () => {
 2. 구독 POST
 3. 등록된 브라우저 들에게 푸시를 보내는 POST
 
+※ Push API는 현재 크롬의 시크릿모드에서는 동작하지 않습니다.
 
+Push를 구독할 Client를 만들어 보겠습니다.
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <a class="btn_subscribe" id="subscribe">구독</a><br>
+        Public KEY : <span id="receivedPubKey">-</span><br>
+        <script src="client.js"></script>
+    </body>
+</html>
+```
+client.js
+```javascript
+function registerPush(appPubkey) {
+    navigator.serviceWorker.register('service-worker.js').then( (registration) =>{
+        console.log("service worker Registered / getSubscription");
+
+        return registration.pushManager.getSubscription()
+            .then(function(subscription) {
+                if (subscription) {
+                    return subscription;
+                }
+
+                return registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(appPubkey)
+                });
+            }) 
+            .then(function(subscription) {
+                console.log('post subscription : ', subscription);
+                mysubscription = subscription;
+                return fetch('https://127.0.0.1:4999/push/subscribe', {
+                    method: 'post',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({ subscription: subscription })
+                });
+            }).catch( (error) =>{
+                console.err(`subscription error : ${error}`);
+            });        
+    }).catch(function (err) {
+        console.log("Service Worker Failed to Register", err);
+    });    
+}
+
+function urlBase64ToUint8Array(base64String) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+
+    for (var i = 0; i < rawData.length; ++i)  {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+
+    return outputArray;
+}
+
+document.querySelector('#subscribe').onclick = () =>{
+    if (navigator.serviceWorker) {
+        fetch('https://127.0.0.1:4999/push/key')
+        .then( e => e.json()).then( (result) =>{
+            document.querySelector('#receivedPubKey').innerText = result.key;
+            registerPush(result.key);
+        });
+    }    
+}
+```
+service-worker.js
+```javascript
+self.addEventListener('push', function (event) {
+    const data = JSON.parse(event.data.text());
+    
+    event.waitUntil( async function() {
+        self.registration.showNotification( data.title, {
+            body: data.message
+        })
+    }());
+
+});
+```
+style.css
+```css
+.btn_subscribe{
+    background-color: antiquewhite;
+    border:1px solid gray;
+    padding: 2px;
+    cursor: pointer;
+}
+```
+
+push 보내는 쪽은 간단합니다. post로 제목과 내용만 넣어서 보내도록 하겠습니다.
+```html
+<html>
+    <body>
+        <form action="/push/notify" method="post">
+            <input type="text" name="title">
+            <input type="text" name="message">
+            <button type="submit">보내기</button>
+        </form>
+    </body>
+</html>
+```
 
 https://tisplay2devresource.z32.web.core.windows.net/test-webpush_client/test.html#
