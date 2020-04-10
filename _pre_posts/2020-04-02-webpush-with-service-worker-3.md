@@ -75,10 +75,75 @@ webpush server running, port:4999
 https서버가 준비되었으니 본격적으로 web-push 내용을 추가해봅시다.
 
 ```javascript
+var webpush = require('web-push');
+const express = require('express');
+const https = require('https');
+const fs = require('fs');
 
+var cors = require('cors'); 
+
+const port = process.env.PORT || 4999;
+
+const app = express();
+
+app.use(cors());    //cross origin 허용
+app.use(express.json());    //json사용
+app.use(express.urlencoded({ extended: true})); //body-parse사용
+
+app.get('/', (req, res) =>{
+    res.send("Web Push Server");
+});
+
+const options = {
+    cert: fs.readFileSync('localhost.pem'),
+    key: fs.readFileSync('localhost-key.pem')
+};  
+
+const vapidKeys = webpush.generateVAPIDKeys();
+webpush.setVapidDetails(
+    'mailto:transpine@gmail.com',
+    vapidKeys.publicKey,
+    vapidKeys.privateKey
+);
+
+app.get('/push/key', function(req, res){
+    console.log(`publick key sent: ${vapidKeys.publicKey}`);
+    res.send({
+        key: vapidKeys.publicKey
+    });
+});
+
+const temp_subs = [];
+app.post('/push/subscribe', function(req, res){
+    temp_subs.append(req.body.subscription);
+    console.log(req.body);
+
+    res.send('Success');
+});
+
+app.post('/push/notify', function(req, res){
+    let payload = {};
+    payload.title = req.body.title;
+    payload.message = req.body.message;
+
+    for(const subs in temp_subs){
+        webpush.sendNotification(subs, JSON.stringify(payload))
+        .then(function (response) {
+            console.log('sent notification');
+            res.sendStatus(201);
+        });
+    }
+});
+
+https.createServer(options, app).listen( port, () => {
+    console.log(`webpush server running, port:${port}`);
+});
 ```
 
-
+3개의 API로 이루어져 있습니다.
+1. service-worker의 pushManager가 Registration을 하기 위한  키를 받아오는 GET
+2. 구독 POST
+3. 등록된 브라우저 들에게 푸시를 보내는 POST
 
 
 
