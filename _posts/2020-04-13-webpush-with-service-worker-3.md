@@ -280,7 +280,7 @@ push 보내는 쪽은 간단합니다. post로 제목과 내용만 넣어서 보
 이제 실제로 동작만 확인해보면 됩니다.
 창을 3개를 동시에 열어서 보는것이 편합니다. 앞에서 이야기했듯이 service-worker가 등록되지 않는것을 확인하기 힘들기 때문에 chrome://inspect/#service-workers창을 열어 보면서 진행하는것이 좋기 때문입니다. 또한 브라우저(크롬) 디버그 창에서 servicw worker를 수동으로 업데이트하거나 unregister도 가능하게 해두었기 때문에 그것도 보면서 진행하면 좋습니다.
 
-먼저 service-worker창을 열면 이렇게 아무것도 보이지 않습니다. 혹은 다른 service-worker가 보일수도 있습니다만 주소가 표시되는 부분을 잘 보시면서 원하는 service-worker가 맞는지 잘 구분 하세요. 이 창은 현재 열린창(탭)들에서 사용중인 service-worker들만을 보여줍니다.
+먼저 service-worker창을 열면 이렇게 아무것도 보이지 않습니다. 혹은 다른 service-worker가 보일수도 있습니다만 주소가 표시되는 부분을 잘 보시면서 원하는 service-worker가 맞는지 잘 구분 하세요. 이 창은 현재 열린창(탭)들에서 사용중인 service-worker들만을 보여줍니다.  
 ![]({{site.baseurl}}/assets/img/posts/2020-04-13_img3.png)  
 
 Client창입니다. F12를 눌러 Application탭에 들어가 보면 Service Workers라는 메뉴가 있습니다. Service workers from other origins를 눌러보시면 현재 사이트 뿐만 아니라 등록되어 있는 모든 service-worker들을 볼 수 있습니다. 정상적으로 구독이 되면 우리가 작업하는 service-worker도 표시가 될것입니다.
