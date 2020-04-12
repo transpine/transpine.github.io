@@ -1567,3 +1567,6 @@ a.newer-posts:hover {
     font-size: 21px;
   }
 }
+
+.language-shell.highlighter-rouge .highlight 
+{background-color: #0a0a0a; border-radius: 3px; margin: 0;}
