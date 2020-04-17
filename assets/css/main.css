@@ -1197,6 +1197,14 @@ footer .copyright {
   color: #263959;
 }
 
+.post .post-content .post-comments {
+  background: darkcyan;
+  color: white;
+  padding: 0 4px;
+  border-radius: 5px;
+  font-size: 0.8em;
+}
+
 .post .post-content p {
   margin-top: 0;
 }
