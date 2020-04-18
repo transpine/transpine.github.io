@@ -15,7 +15,7 @@ layout: main
       <li><a class="tag" href="{{site.baseurl}}/tags#{{tag}}">{{ tag }}</a></li>
       {%- endfor -%}
     </div>
-    <a class="post-comments" href="{{ site.url }}{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.id }}">Comments</a>
+    <a class="post-comments" href="{{ site.url }}{{ post.url | relative_url }}#disqus_thread">Comments</a>
     <span class="post-date">{{post.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;—&nbsp;</span>
     <span class="post-words">{% capture words %}{{ post.content | number_of_words }}{% endcapture %}{% unless words contains "-" %}{{ words | plus: 250 | divided_by: 250 | append: " minute read" }}{% endunless %}</span>
   </div>
