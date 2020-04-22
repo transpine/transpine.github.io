@@ -120,4 +120,6 @@ sketcher에서 내용과 이미지 주소를 입력후 보내기!
 푸시 팝업이 보이면서 동시에 브라우저에서 푸시 내용이 업데이트 됩니다.  
 ![]({{site.baseurl}}/assets/img/posts/2020-04-22_img4.png)
 
+※ CODE - https://github.com/transpine/webpush-with-service-worker-simulator
+
 여기까지 service-worker를 이용한 기본적인 webpush를 알아보고 만들어 봤습니다. 아직까지 많은 기능이 지원되는 않고, 브라우저들이 모두 지원하지는 않는 내용이라서 범용성이 떨어지는것도 사실입니다. 하지만 윈도우나 OSX의 OS 레벨에서의 알림 지원이 계속되고 있고 safari나 chrome에서도 지원을 계속하고 있는 만큼 앞으로의 커버리지가 더 궁금해지는 기술이었습니다.
