@@ -457,6 +457,7 @@ template {
           border-radius: 3px;
   /* padding: 0.1rem 0.5rem; */
   background: #eeeeee;
+  margin: 0 -20px;
 }
 
 .highlight .hll {
@@ -1577,4 +1578,4 @@ a.newer-posts:hover {
 }
 
 .language-shell.highlighter-rouge .highlight 
-{background-color: #0a0a0a; border-radius: 3px; margin: 0;}
+{background-color: #d2d2d2; border-radius: 3px; margin: 0;}
