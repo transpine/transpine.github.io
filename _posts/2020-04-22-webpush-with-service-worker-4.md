@@ -2,7 +2,7 @@
 layout: post
 title: Service worker를 이용한 Web Push (4)
 date: 2020-04-22 18:41
-category: 
+category: [Web]
 author: 
 tags: [web, push]
 summary: 

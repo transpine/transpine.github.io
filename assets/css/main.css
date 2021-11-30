@@ -947,6 +947,23 @@ table tfoot td {
   background-color: #ffffff;
 }
 
+body .wrapper_categories {
+  padding-inline-start: 0;
+  margin-block-start: 0;
+}
+body .sidebar-nav-item {
+  text-align: left;
+  border-bottom: 2px dotted lightgray;
+}
+
+body .category-link {
+  color: darkgreen;
+}
+
+body .posts-list a{
+    color: #1a5632;
+}
+
 body .tag_wrapper{
   text-align: center;
   height: 100%;

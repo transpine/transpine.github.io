@@ -2,7 +2,7 @@
 layout: post
 title:  Service worker를 이용한 Web Push (2)
 date: 2020-04-01 22:12
-category: 
+category: [Web]
 author: 
 tags: [web, push, JWT, VAPID]
 summary: 
