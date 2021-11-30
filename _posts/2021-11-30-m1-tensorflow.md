@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Apple Silicon (M1Pro)에서 tensorflow 실행하기
-date: 2021-11-3 21:20
+date: 2021-11-30 21:20
 category: [Machine Learning]
 author: 
 tags: [ML]
