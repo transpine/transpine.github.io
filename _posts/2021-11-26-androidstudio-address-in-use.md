@@ -2,7 +2,7 @@
 layout: post
 title: Android Studio 실행시 Address already in use가 나올경우
 date: 2021-11-26 23:58
-category: [Flutter]
+category: [Tools]
 author: 
 tags: [IDE]
 summary: 

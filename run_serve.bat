@@ -1,1 +1,1 @@
-rm -rf _site\ && jekyll serve --increment
+rm -rf _site\ && bundle exec jekyll serve --increment
