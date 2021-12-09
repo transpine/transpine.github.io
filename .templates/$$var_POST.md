@@ -8,3 +8,5 @@ tags: []
 summary: 
 img: posts/var_date-title.png
 ---
+
+![]({{site.baseurl}}/assets/img/posts/var_date-img1.png)
