@@ -443,10 +443,11 @@ template {
 }
 
 .highlight {
-  background-color: #faf9f9;
+  background-color: #10131c;
   -webkit-border-radius: 3px;
           border-radius: 3px;
   margin: 0;
+  tab-size: 2;
 }
 
 .highlighter-rouge {
@@ -470,8 +471,8 @@ template {
 
 /* Comment */
 .highlight .err {
-  color: #a00;
-  background-color: #faa;
+  /* color: #a00; */
+  /* background-color: #faa; */
 }
 
 /* Error */
@@ -497,7 +498,7 @@ template {
 
 /* Comment.Preproc */
 .highlight .c1 {
-  color: #999;
+  color: rgb(208, 208, 208);
 }
 
 /* Comment.Single */
