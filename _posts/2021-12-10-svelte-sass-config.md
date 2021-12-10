@@ -18,9 +18,10 @@ rollup.config.js안에 preprocess만 추가해주면 된다.
 
 먼저 필요한 플러그인을 설치합니다.
 
-```sheel
+```shell
 npm i sass rollup-plugin-scss --save-dev
 ```
+
 설정후 vscode를 reload해야만 tag뒤에 보이는 에러가 사라집니다.
 
 ```javascript
