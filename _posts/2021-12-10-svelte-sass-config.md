@@ -21,6 +21,7 @@ rollup.config.js안에 preprocess만 추가해주면 된다.
 ```sheel
 npm i sass rollup-plugin-scss --save-dev
 ```
+설정후 vscode를 reload해야만 tag뒤에 보이는 에러가 사라집니다.
 
 ```javascript
 import sveltePreProcess from 'svelte-preprocess';
