@@ -16,7 +16,15 @@ preprocess시 scss를 로드해서 번들링하는 방식등이 있었다.
 하지만 3.44.2 버전 기준으로 간단하게 적용하는 방법이 있다.  
 rollup.config.js안에 preprocess만 추가해주면 된다. 
 
+먼저 필요한 플러그인을 설치합니다.
+
+```sheel
+npm i sass rollup-plugin-scss --save-dev
+```
+
 ```javascript
+import sveltePreProcess from 'svelte-preprocess';
+
 ...
 plugins: [
 		svelte({
