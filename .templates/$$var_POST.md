@@ -2,7 +2,7 @@
 layout: post
 title: 제목
 date: var_date var_time
-category: [Machine Learning, Svelte, Tools, Web]
+category: [Machine Learning, Svelte, Tools, Web, Flutter]
 author: JayD.Kang 
 tags: []
 summary: 
